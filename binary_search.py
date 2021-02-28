@@ -36,15 +36,16 @@ def find_smallest_positive(xs):
         for x in xs:
             if x < 0:
                 return None
-    i = 0
+
     def go(left, right):
         if left == right:
-            if xs[left] == 0:
-                return xs[i]
-            if None:
-                return True
-            else:
-                return False
+            for i in range(len(xs)):
+                if xs[left] == 0:
+                    return xs[i]
+                if None:
+                    return True
+                else:
+                    return False
 
         for i, x in enumerate(xs):
             if x > 0:
