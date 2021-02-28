@@ -221,3 +221,5 @@ def argmin_simple(f, epsilon=1e-3):
     This function is like argmin, but it
     internally uses the find_boundaries function so that
     '''
+    lo, hi = find_boundaries(f)
+    return argmin(f, lo, hi, epsilon)
