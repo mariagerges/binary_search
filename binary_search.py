@@ -157,12 +157,11 @@ def argmin(f, lo, hi, epsilon=1e-3):
     >>> argmin(lambda x: (x - 5)**2, -20, 0)
     -0.00016935087808430278
     '''
-    def go(lo,hi):
-        m1 = lo + (hi-lo)/3
-        m2 = lo + ((hi-lo)/3)*2
-        #print('lo=',lo,'hi=',hi,'m2=',m2,'m1=',m1)
-        if abs(lo-hi) < epsilon:
-            return (hi+lo)/2
+    def go(lo, hi):
+        m1 = lo + (hi - lo) / 3
+        m2 = lo + ((hi - lo) / 3) * 2
+        if abs(lo - hi) < epsilon:
+            return (hi + lo) / 2
         if f(m2) < f(m1):
             lo = m1
         if f(m2) > f(m1):
@@ -170,8 +169,8 @@ def argmin(f, lo, hi, epsilon=1e-3):
         if f(m2) == f(m1):
             lo = m1
             hi = m2
-        return go(lo,hi)
-    return go(lo,hi)
+        return go(lo, hi)
+    return go(lo, hi)
 
 #########################################
 #######################################
