@@ -111,6 +111,22 @@ def count_repeats(xs, x):
 
 
 def argmin(f, lo, hi, epsilon=1e-3):
+
+    left = lo
+    right = hi
+
+    def go(left, right):
+        m1 = left + (right-left)/4
+        m2 = left + (right-left)/2
+
+        if right-left < epsilon:
+            return right
+        if f(m1) < f(m2):
+            return go(left, m2)
+        if f(m1) > f(m2):
+            return go(m1, right)
+
+    return go(left, right)
     '''
     Assumes that f is an input function that
     takes a float as input and returns a float
@@ -131,47 +147,27 @@ def argmin(f, lo, hi, epsilon=1e-3):
                you recursively call your function on the
                interval [lo,m2] or [m1,hi]
 
-    APPLICATION:
-    Essentially all data mining algorithms
-    are just this argmin implementation in disguise.
-    If you go on to take the data mining class (CS145/MATH166),
-    we will spend a lot of time talking about
-    different f functions that can be minimized
-    and their applications.
-    But the actual minimization code will all
-    be a variant of this binary search.
-
-    WARNING:
-    The doctests below are not intended to
-    pass on your code,
-    and are only given so that you have an
-    example of what the output should look like.
-    Your output numbers are likely to be slightly
-    different due to minor implementation details.
-    Writing tests for code that uses floating
-    point numbers is notoriously difficult.
-    See the pytests for correct examples.
-
-    >>> argmin(lambda x: (x - 5)**2, -20, 20)
+    >>> argmin(lambda x: (x-5)**2, -20, 20)
     5.000040370009773
-    >>> argmin(lambda x: (x - 5)**2, -20, 0)
+    >>> argmin(lambda x: (x-5)**2, -20, 0)
     -0.00016935087808430278
     '''
-    def go(lo, hi):
-        m1 = lo + (hi - lo) / 3
-        m2 = lo + ((hi - lo) / 3) * 2
-        if abs(lo - hi) < epsilon:
-            return (hi + lo) / 2
-        if f(m2) < f(m1):
-            lo = m1
-        if f(m2) > f(m1):
-            hi = m2
-        if f(m2) == f(m1):
-            lo = m1
-            hi = m2
-        return go(lo, hi)
-    return go(lo, hi)
+    '''
+    def search(lo, hi):
 
+        if hi - lo < epsilon:
+            return hi
+
+        m1 = lo + (hi-lo)/4
+        m2 = hi - (hi-lo)/2
+
+        if f(m1) < f(m2):
+            return search(lo, m2)
+        if f(m1) > f(m2):
+            return search(m1, hi)
+
+    return search(lo, hi)
+    '''
 #########################################
 #######################################
 # the functions below are extra credit
