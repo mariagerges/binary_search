@@ -36,7 +36,7 @@ def find_smallest_positive(xs):
         for x in xs:
             if x < 0:
                 return None
-
+    i = 0
     def go(left, right):
         if left == right:
             if xs[left] == 0:
@@ -95,7 +95,7 @@ def count_repeats(xs, x):
 
     def highest_index(xs, x):
         for i, number in enumerate(xs):
-            if xs[len(xs)-1] == x:
+            if xs[len(xs) - 1] == x:
                 return len(xs)
             if number < x:
                 return i
@@ -156,8 +156,8 @@ def argmin(f, lo, hi, epsilon=1e-3):
     >>> argmin(lambda x: (x-5)**2, -20, 0)
     -0.00016935087808430278
     '''
-    m1 = lo + (hi - lo)/3
-    m2 = hi - ((hi - lo)/3)
+    m1 = lo + (hi - lo) / 3
+    m2 = hi - ((hi - lo) / 3)
     lo_val = f(lo)
     m1_val = f(m1)
     m2_val = f(m2)
