@@ -152,22 +152,26 @@ def argmin(f, lo, hi, epsilon=1e-3):
     point numbers is notoriously difficult.
     See the pytests for correct examples.
 
-    >>> argmin(lambda x: (x-5)**2, -20, 20)
+    >>> argmin(lambda x: (x - 5)**2, -20, 20)
     5.000040370009773
-    >>> argmin(lambda x: (x-5)**2, -20, 0)
+    >>> argmin(lambda x: (x - 5)**2, -20, 0)
     -0.00016935087808430278
     '''
-    def result(lo, hi):
-        m1 = lo + (hi - lo) / 3
-        m2 = lo + (hi - lo) / 3 * 2
+    f = f
+    epsilon = epsilon
+    hi = hi
+    lo = lo
 
-        if (hi - lo) < epsilon:
-            return hi
-        if f(m2) < f(m1):
-            return result(m1, hi)
-        if f(m2) > f(m1):
-            return result(lo, m2)
-    return result(lo, hi)
+    while (hi - lo) > epsilon:
+        m1 = (hi - lo) / 3 + lo
+        m2 = 2 * (hi - lo) / 3 + lo
+        if f(lo) < f(m1):
+            hi = m1
+        elif f(m1) < f(m2):
+            hi = m2
+        elif f(m2) < f(m1):
+            lo = m1
+    return (hi + lo) / 2
 
 #########################################
 #######################################
