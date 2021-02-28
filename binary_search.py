@@ -28,34 +28,29 @@ def find_smallest_positive(xs):
     >>> find_smallest_positive([-3, -2, -1]) is None
     True
     '''
+    left = 0
+    right = len(xs) - 1
+
+    def go(left, right):
+        mid = (left + right) // 2
+        if xs[mid] == 0:
+            return mid + 1
+        if left == right:
+            if xs[mid] > 0:
+                return mid
+            else:
+                return None
+        if xs[mid] > 0:
+            return go(left, mid - 1)
+        if xs[mid] < 0:
+            return go(mid + 1, right)
 
     if len(xs) == 0:
         return None
-
-    if len(xs) == 1:
-        for x in xs:
-            if x < 0:
-                return None
-
-    def go(left, right):
-        if left == right:
-            for i in range(len(xs)):
-                if xs[left] == 0:
-                    return xs[i]
-                if None:
-                    return True
-                else:
-                    return False
-
-        for i, x in enumerate(xs):
-            if x > 0:
-                return i
-            if x < 0:
-                left = i + 1
-            if x == 0:
-                left = i + 1
-
-    return go(0, len(xs) - 1)
+    if xs[0] > 0:
+        return 0
+    else:
+        return go(left, right)
 
 
 def count_repeats(xs, x):
@@ -82,32 +77,59 @@ def count_repeats(xs, x):
     >>> count_repeats([3, 2, 1], 4)
     0
     '''
-    if len(xs) == 0:
-        return 0
-    if len(xs) == 1 and x in xs:
-        return 1
-    if xs[0] == x and xs[1] == x:
-        return len(xs)
+    def low_index(left, right):
 
-    def lowest_index(xs, x):
-        for i, number in enumerate(xs):
-            if number == x:
-                return i
+        if left < right:
+            if xs[left] == x:
+                return left
 
-    def highest_index(xs, x):
-        for i, number in enumerate(xs):
-            if xs[len(xs) - 1] == x:
-                return len(xs)
-            if number < x:
-                return i
+            mid = (left + right) // 2
+            if xs[mid] > x:
+                left = mid + 1
+            if xs[mid] <= x:
+                right = mid
+        else:
+            if xs[left] == x:
+                return left
+            else:
+                return -1
 
-    lowest = lowest_index(xs, x)
-    highest = highest_index(xs, x)
+        return low_index(left, right)
 
-    if lowest is None or highest is None:
-        return 0
+    def high_index(left, right):
+
+        if left < right:
+            if xs[right] == x:
+                return right
+
+            mid = (left + right) // 2
+            if xs[mid] < x:
+                right = mid - 1
+            elif xs[mid] >= x and left != mid:
+                left = mid + 1
+            else:
+                if xs[left] == x:
+                    return left
+                else:
+                    return -1
+        else:
+            if xs[right] == x:
+                return right
+            else:
+                return -1
+
+        return high_index(left, right)
+
+    if xs:
+        low = low_index(0, len(xs) - 1)
+        high = high_index(0, len(xs) - 1)
+
+        if high != -1:
+            return high - low + 1
+        else:
+            return 0
     else:
-        return highest - lowest
+        return 0
 
 
 def argmin(f, lo, hi, epsilon=1e-3):
