@@ -157,30 +157,24 @@ def argmin(f, lo, hi, epsilon=1e-3):
     >>> argmin(lambda x: (x-5)**2, -20, 0)
     -0.00016935087808430278
     '''
-    m1 = lo + (hi - lo) / 3
-    m2 = hi - ((hi - lo) / 3)
-    lo_val = f(lo)
-    m1_val = f(m1)
-    m2_val = f(m2)
-    hi_val = f(hi)
-    lowest = min(lo_val, m1_val, m2_val, hi_val)
+    def result(lo, hi):
+        m1 = lo + (hi - lo) / 3
+        m2 = lo + (hi - lo) / 3 * 2
 
-    if hi - lo < epsilon:
-        if hi_val == min(lo_val, hi_val):
+        if (hi - lo) < epsilon:
             return hi
-        if lo_val == min(lo_val, hi_val):
-            return lo
-    if lo_val == lowest or m1_val == lowest:
-        return argmin(f, lo, m2, epsilon=epsilon)
-    else:
-        return argmin(f, m1, hi, epsilon=epsilon)
-
+        if f(m2) < f(m1):
+            return result(m1, hi)
+        if f(m2) > f(m1):
+            return result(lo, m2)
+    return result(lo, hi)
 
 #########################################
 #######################################
 # the functions below are extra credit
 ########################################
 ########################################
+
 
 def find_boundaries(f):
     '''
